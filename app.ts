@@ -2,9 +2,9 @@ import { Application } from 'egg';
 var { Connection } = require('zing-orm');
 
 export default async (app: Application) => {
-  const config = app.config.typeorm;
+  const config = app.config.zingorm;
   if (!config) {
-    throw new Error('[egg-zing-orm] Config of Typeorm is needed.');
+    throw new Error('[egg-zing-orm] Config of zingorm is needed.');
   }
 
   app.beforeStart(async () => {
