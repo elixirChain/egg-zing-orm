@@ -12,7 +12,7 @@ export default async (app: Application) => {
 
       // Load config and connect to Database.
       const options = app.config.zingorm;
-      app.context.connection = await await new Connection(options);
+      app.context.connection = await new Connection(options);
       app.logger.info('[egg-zing-orm] Successfully connected to the database.');
     } catch (e) {
       app.logger.error('[egg-zing-orm] Error connecting to the database:', e);
