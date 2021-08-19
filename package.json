@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "prettier": "^2.2.1",
-    "zing-orm": "0.0.3"
+    "zing-orm": "0.0.5"
   },
   "devDependencies": {
     "@types/joi": "^17.2.3",
