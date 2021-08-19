@@ -1,6 +1,6 @@
 {
   "name": "egg-zing-orm",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Simple orm with zingOrm, for egg plugin.",
   "egg": {
     "typescript": true,
@@ -19,10 +19,13 @@
     "orm"
   ],
   "dependencies": {
+    "fs-extra": "^10.0.0",
+    "fs-jetpack": "^4.1.1",
     "prettier": "^2.2.1",
     "zing-orm": "0.0.5"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.12",
     "@types/joi": "^17.2.3",
     "@types/lodash": "^4.14.172",
     "@types/mocha": "^2.2.40",
