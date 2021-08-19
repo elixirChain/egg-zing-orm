@@ -27,6 +27,11 @@ class BaseService extends Service {
   BizError: (message: string, codes?: Code) => typeof BizError;
 
   constructor(_ctx: Context, _entity: any) {
+
+    if (!_entity) {
+      throw Error(`BaseService Error: must provide 'super(_ctx: Context, _entity: any)' !!!`);
+    }
+
     super(_ctx);
     this.modelName = this.constructor.name.substring(0, this.constructor.name.length - 7);
     //todo check this.modelName 是否是 key : _entity
