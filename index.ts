@@ -1,5 +1,5 @@
 /**
- * @namespace egg-orm-ts
+ * @namespace egg-zing-orm
  */
 
 import { BaseController } from './app/controller/base';

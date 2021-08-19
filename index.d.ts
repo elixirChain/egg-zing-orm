@@ -122,7 +122,7 @@ declare type PageProps<Entity> = {
   success: boolean;
 };
 
-declare module 'egg-orm-ts' {
+declare module 'egg-zing-orm' {
   export type EggLogger = Logger;
   // plain object
   type PlainObject<T = any> = { [key: string]: T };
@@ -1044,7 +1044,7 @@ declare module 'egg-orm-ts' {
 
   export class Subscription extends BaseContextClass { }
 
-  /** egg-orm-ts */
+  /** egg-zing-orm */
   export class BaseController extends Controller {
     /**
      * 统一公共调用方法
