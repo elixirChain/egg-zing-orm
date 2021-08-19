@@ -1,5 +1,8 @@
 import { Application } from 'egg';
 var { Connection } = require('zing-orm');
+import { loadInstance } from './lib/entity';
+
+export const hasTsLoader = (typeof require.extensions['.ts'] === 'function');
 
 export default async (app: Application) => {
   const config = app.config.zingorm;
@@ -9,7 +12,9 @@ export default async (app: Application) => {
 
   app.beforeStart(async () => {
     try {
-
+      // Load typeorm query instance.
+      const fileExt = hasTsLoader ? '*.ts' : '*.js';
+      await loadInstance(app, fileExt);
       // Load config and connect to Database.
       const options = app.config.zingorm;
       if (!app.context.connection) {
@@ -26,7 +31,6 @@ export default async (app: Application) => {
 
   app.beforeClose(async () => {
     try {
-
       await app.context.connection.closeConnection();
       app.logger.info('[egg-zing-orm] Successfully close the database.');
     } catch (e) {
