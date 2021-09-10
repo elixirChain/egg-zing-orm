@@ -11,9 +11,6 @@ export async function loadInstance(app: Application, matching: string) {
     app.logger.error('[egg-zing-orm] Error: Entity dir is not found in app dir.');
     return;
   }
-
-  app.context.repo = {};
-  app.context.entity = {};
   const files = find(entityDir, { matching });
   try {
     for (const file of files) {
