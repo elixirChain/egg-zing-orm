@@ -26,18 +26,27 @@ class BaseService extends Service {
   BIZ_CODE: typeof BIZ_CODE;
   BizError: (message: string, codes?: Code) => typeof BizError;
 
-  constructor(_ctx: Context, _entity: any) {
+  constructor(_ctx: Context, _entity: any, _options: any) {
 
     if (!_entity) {
       throw Error(`BaseService Error: must provide 'super(_ctx: Context, _entity: any)' !!!`);
     }
 
     super(_ctx);
+    // not use this.modelName
     this.modelName = this.constructor.name.substring(0, this.constructor.name.length - 7);
     //todo check this.modelName 是否是 key : _entity
     this.entity = _entity;
     // this.entityClass = this.entity[this.modelName];
-    this.model = this.ctx.connection.getRepository(this.entity);
+    if (!!_options && !!_options.connectionName) {
+      if (!!this.ctx.connections && this.ctx.connections[_options.connectionName]) {
+        this.model = this.ctx.connections[_options.connectionName].getRepository(this.entity);
+      } else {
+        throw Error(`BaseService Error: this.ctx.connections[${_options.connectionName}] is undefined!!!`);
+      }
+    } else {
+      this.model = this.ctx.connection.getRepository(this.entity);
+    }
     // TODO: 提示
 
     this.HTTP_CODE = HTTP_CODE;
