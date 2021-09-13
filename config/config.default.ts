@@ -6,20 +6,20 @@ export default (app: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
 
   // config for DB
-  config.typeorm = {
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'dba_test',
-    password: '123456',
-    database: 'test',
-    synchronize: false,
-    logging: false,
-    entities: [ 'app/entity/**/*.ts' ],
-    cli: {
-      entitiesDir: 'app/entity',
-    },
-  };
+  // config.typeorm = {
+  //   type: 'postgres',
+  //   host: 'localhost',
+  //   port: 5432,
+  //   username: 'dba_test',
+  //   password: '123456',
+  //   database: 'test',
+  //   synchronize: false,
+  //   logging: false,
+  //   entities: [ 'app/entity/**/*.ts' ],
+  //   cli: {
+  //     entitiesDir: 'app/entity',
+  //   },
+  // };
 
   // use for cookie sign key, should change to your own and keep security
   config.keys = app.name + '_1580572800001_0420';

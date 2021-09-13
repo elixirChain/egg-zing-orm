@@ -11,8 +11,8 @@ class BaseService extends Service {
    * Repository of this model.
    */
   modelName: string;
+  options: any;
   entity: any;
-
   model: any;
   /**
    * Repository of this connection.
@@ -36,6 +36,7 @@ class BaseService extends Service {
     // not use this.modelName
     this.modelName = this.constructor.name.substring(0, this.constructor.name.length - 7);
     //todo check this.modelName 是否是 key : _entity
+    this.options = _options;
     this.entity = _entity;
     // this.entityClass = this.entity[this.modelName];
     if (!!_options && !!_options.connectionName) {
@@ -45,7 +46,11 @@ class BaseService extends Service {
         throw Error(`BaseService Error: this.ctx.connections[${_options.connectionName}] is undefined!!!`);
       }
     } else {
-      this.model = this.ctx.connection.getRepository(this.entity);
+      if (!!this.ctx.connection) {
+        this.model = this.ctx.connection.getRepository(this.entity);
+      } else {
+        throw Error(`BaseService Error: this.ctx.connection is undefined!!!`);
+      }
     }
     // TODO: 提示
 

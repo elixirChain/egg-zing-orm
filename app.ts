@@ -18,7 +18,7 @@ export default async (app: Application) => {
       await loadInstance(app, fileExt);
       // Load config and connect to Database.
       const config = app.config.zingorm;
-      if (Object.prototype.toString.call(config) === '[Object Object]') {
+      if (Object.prototype.toString.call(config) === '[object Object]') {
         if (!app.context.connection) {
           app.context.connection = await new Connection(config);
           app.logger.info('[egg-zing-orm] Successfully connected to the database.');
@@ -27,14 +27,22 @@ export default async (app: Application) => {
         }
       } else if (Array.isArray(config)) {
         if (!app.context.connections) {
+          app.context.connections = {};
           for (let i = 0; i < config.length; i++) {
-            let name = config[i];
-            app.context.connections[name] = await new Connection(config[i]);
-            app.logger.info(`[egg-zing-orm] Successfully connected to the database: ${name}.`);
+            let name = config[i].name;
+            app.context.connections[name] = await new Connection({
+              type: config[i].type,
+              user: config[i].user,
+              password: config[i].password,
+              connectString: config[i].connectString
+            });
+            app.logger.info(`[egg-zing-orm] Successfully connected to the database: ${name}`);
           }
         } else {
           app.logger.info('[egg-zing-orm] app.context.connections has already been initialized.');
         }
+      } else {
+        app.logger.error('[egg-zing-orm] Config error, please check it!');
       }
 
 
