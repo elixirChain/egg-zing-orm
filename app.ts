@@ -20,7 +20,14 @@ export default async (app: Application) => {
       const config = app.config.zingorm;
       if (Object.prototype.toString.call(config) === '[object Object]') {
         if (!app.context.connection) {
-          app.context.connection = await new Connection(config);
+          app.context.connection = await new Connection({
+            type: config.type,
+            user: config.user,
+            password: config.password,
+            host: config.host,
+            port: config.port,
+            database: config.database,
+          });
           app.logger.info('[egg-zing-orm] Successfully connected to the database.');
         } else {
           app.logger.info('[egg-zing-orm] app.context.connection has already been initialized.');
@@ -34,7 +41,9 @@ export default async (app: Application) => {
               type: config[i].type,
               user: config[i].user,
               password: config[i].password,
-              connectString: config[i].connectString
+              host: config[i].host,
+              port: config[i].port,
+              database: config[i].database,
             });
             app.logger.info(`[egg-zing-orm] Successfully connected to the database: ${name}`);
           }
