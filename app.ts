@@ -5,7 +5,7 @@ import { loadInstance } from './lib/entity';
 export const hasTsLoader = (typeof require.extensions['.ts'] === 'function');
 
 export default async (app: Application) => {
-  //todo joi check 
+  //todo joi check, zing-orm should export joi schema
   const config = app.config.zingorm;
   if (!config) {
     throw new Error('[egg-zing-orm] Config of zingorm is needed.');
