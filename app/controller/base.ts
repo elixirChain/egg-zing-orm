@@ -21,7 +21,13 @@ class BaseController extends Controller {
   /**
    * Call the service only with the same module name.
    */
-  callService: (params?: any, paramsSchema?: AnySchema, methodName?: string, resultSchema?: AnySchema) => Promise<any>;
+  callService: (
+    params?: any,
+    paramsSchema?: AnySchema,
+    methodName?: string,
+    resultSchema?: AnySchema,
+    serviceName?: string,
+  ) => Promise<any>;
 
   constructor(_ctx: Context) {
     super(_ctx);
@@ -50,7 +56,7 @@ class BaseController extends Controller {
      * @param {object} resultSchema 结果校验Joi对象
      * @return {object} result 原始dao响应对象
      */
-    this.callService = async (params, paramsSchema, methodName, resultSchema) => {
+    this.callService = async (params, paramsSchema, methodName, resultSchema, serviceName) => {
       // controller 验证参数
       if (paramsSchema) {
         const { error } = paramsSchema.validate(params);
@@ -64,7 +70,8 @@ class BaseController extends Controller {
       if (!newMethodName) {
         newMethodName = this.ctx.request.path.split('/').slice(-1)[0];
       }
-      const result = await this.ctx.service[this.modelName][newMethodName](params);
+      let temp = !serviceName ? this.modelName : serviceName;
+      const result = await this.ctx.service[temp][newMethodName](params);
       // controller 验证响应结果
       if (resultSchema) {
         const { error } = resultSchema.validate(result);

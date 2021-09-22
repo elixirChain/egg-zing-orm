@@ -15,7 +15,7 @@ export async function loadInstance(app: Application, matching: string) {
   try {
     for (const file of files) {
       const entityPath = join(baseDir, file);
-      console.log('entityPath: ', entityPath);
+      console.log('loadInstance entityPath: ', entityPath);
       import(entityPath);
     }
   } catch (e) {

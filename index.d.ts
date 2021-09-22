@@ -48,7 +48,7 @@ import { AnySchema } from 'joi';
 
 declare type DATA_TYPE = 'String' | 'Number' | 'Boolean' | 'Date' | 'Array' | 'Undefined' | 'Null' |
   'Error' | 'Symbol' | 'Function' | 'Math' | 'RegExp' | 'HTMLDocument' | 'global';
-declare type HTTP_CODE = 
+declare type HTTP_CODE =
   /* 1xx informational response */
   /* 2xx success */
   'SUCCESS_OK' | 'SUCCESS_CREATED' | 'SUCCESS_ACCEPTED' |
@@ -63,24 +63,24 @@ declare type HTTP_CODE =
   // 不常用
   'NOT_IMPLEMENTED' | 'BAD_GATEWAY' | 'SERVICE_UNAVAILABLE' | 'GATEWAY_TIMEOUT' | 'HTTP_VERSION_NOT_SUPPORTED';
 declare type HTTP_CODE_MESSAGE = { 200: '请求成功' } |
-  { 201: '数据操作成功' } |
-  { 202: '任务已经接受' } |
-  { 203: '非权威内容' } |
-  { 204: '请求已处理，无响应内容' } |
-  { 205: '请求已处理，需重置内容' } |
-  { 400: '异常请求' } |
-  { 401: '未登录或者过期' } |
-  { 403: '没有操作权限' } |
-  { 404: '未找到资源' } |
-  { 405: '请求方法错误' } |
-  { 406: '响应格式不匹配' } |
-  { 413: '请求内容过大' } |
-  { 500: '服务器异常' } |
-  { 502: '网关错误' } |
-  { 501: '未实现' } |
-  { 503: '服务不可用' } |
-  { 504: '网关超时' } |
-  { 505: '协议版本不支持' };
+{ 201: '数据操作成功' } |
+{ 202: '任务已经接受' } |
+{ 203: '非权威内容' } |
+{ 204: '请求已处理，无响应内容' } |
+{ 205: '请求已处理，需重置内容' } |
+{ 400: '异常请求' } |
+{ 401: '未登录或者过期' } |
+{ 403: '没有操作权限' } |
+{ 404: '未找到资源' } |
+{ 405: '请求方法错误' } |
+{ 406: '响应格式不匹配' } |
+{ 413: '请求内容过大' } |
+{ 500: '服务器异常' } |
+{ 502: '网关错误' } |
+{ 501: '未实现' } |
+{ 503: '服务不可用' } |
+{ 504: '网关超时' } |
+{ 505: '协议版本不支持' };
 declare type BIZ_CODE = 'FAIL' | 'SUCCESS';
 declare type Code = { httpCode?: number; bizCode?: number; };
 declare type OprValue = '!=' | '<' | '<=' | '>' | '>=' | '=' | '<>' | 'not in' | '!<>' |
@@ -130,14 +130,14 @@ declare module 'egg-zing-orm' {
   // Remove specific property from the specific class
   type RemoveSpecProp<T, P> = Pick<T, Exclude<keyof T, P>>;
 
-  export interface EggHttpClient extends HttpClient<RequestOptions> {}
+  export interface EggHttpClient extends HttpClient<RequestOptions> { }
   interface EggHttpConstructor {
-    new (app: Application): EggHttpClient;
+    new(app: Application): EggHttpClient;
   }
 
-  export interface EggContextHttpClient extends HttpClient<RequestOptions> {}
+  export interface EggContextHttpClient extends HttpClient<RequestOptions> { }
   interface EggContextHttpClientConstructor {
-    new (ctx: Context): EggContextHttpClient;
+    new(ctx: Context): EggContextHttpClient;
   }
 
   /**
@@ -1054,7 +1054,7 @@ declare module 'egg-zing-orm' {
      * @param {object} resultSchema 结果校验Joi对象
      * @return {object} result 原始dao响应对象
      */
-    protected callService(params?: any, paramsSchema?: AnySchema, methodName?: string, resultSchema?: AnySchema): any;
+    protected callService(params?: any, paramsSchema?: AnySchema, methodName?: string, resultSchema?: AnySchema, serviceName?: string): any;
 
     /**
      * 默认 统一处理响应结果（可自定义）
@@ -1075,20 +1075,20 @@ declare module 'egg-zing-orm' {
       * @see https://github.com/typeorm/typeorm#using-repositories
       */
     repo: { [key: string]: Repository<any> };
-    OPR:{ [key: string]: any };
+    OPR: { [key: string]: any };
     FIND_OPTIONS_KEYS: string[];
-  
+
     /**
       * Common error info.
       */
-    HTTP_CODE: {[key in HTTP_CODE]: number};
-    BIZ_CODE: {[key in BIZ_CODE]: number};
+    HTTP_CODE: { [key in HTTP_CODE]: number };
+    BIZ_CODE: { [key in BIZ_CODE]: number };
     BizError: (message: string, codes?: Code) => any;
 
     /**
      * Utils API
      */
-    
+
     /**
      * 唯一性校验
      * - 必须使用 await 调用
@@ -1111,13 +1111,13 @@ declare module 'egg-zing-orm' {
      */
     //  protected save<T extends DeepPartial<Entity>>(entity: T, options?: SaveOptions): Promise<T & Entity & SuccessFlag>;
     protected save<T extends DeepPartial<Entity>>(entity: T, options?: SaveOptions): Promise<{
-        success: boolean;
+      success: boolean;
       data: T & Entity & SuccessFlag;
     }>;;
     protected get(id: string | number | Date | ObjectID, options?: FindOneOptions<Entity>): Promise<Entity>;
     protected getOne(conditions?: FindConditions<Entity> | ObjectLiteral, options?: FindOneOptions<Entity>): Promise<Entity>;
     protected getListByIds(ids: any[], options?: FindConditions<Entity> | FindManyOptions<Entity> | ObjectLiteral): Promise<Entity[]>;
-  
+
     /**
       * Find with pagination and condition.
       */
@@ -1139,7 +1139,7 @@ declare module 'egg-zing-orm' {
       success: boolean;
       data: (T & Entity & SuccessFlag)[];
     }>;
-    
+
     /**
      * 查询列表
      * @param params 参数
@@ -1154,7 +1154,7 @@ declare module 'egg-zing-orm' {
      * @param params.id primary key
      * @param params.partialEntity new data
      */
-    protected updateListMix(params: {ids: any[]} & (DeepPartial<Entity> | any)): Promise<UpdateResult & SuccessFlag>;
+    protected updateListMix(params: { ids: any[] } & (DeepPartial<Entity> | any)): Promise<UpdateResult & SuccessFlag>;
     protected updateList(criteria: CriteriaParam<Entity>, partialEntity: DeepPartial<Entity>): Promise<UpdateResult & SuccessFlag>;
 
     protected deleteList(criteria: CriteriaParam<Entity>): Promise<DeleteResult & SuccessFlag>;
@@ -1209,9 +1209,9 @@ declare module 'egg-zing-orm' {
     constructor(message: string, codes: Code);
   }
   export const ErrorUtils: {
-    HTTP_CODE: {[key in HTTP_CODE]: number};
+    HTTP_CODE: { [key in HTTP_CODE]: number };
     HTTP_CODE_MESSAGE: HTTP_CODE_MESSAGE;
-    BIZ_CODE: {[key in BIZ_CODE]: number};
+    BIZ_CODE: { [key in BIZ_CODE]: number };
 
     /**
      * base error object
@@ -1491,16 +1491,16 @@ declare module 'egg-zing-orm' {
 
   export function startCluster(options: ClusterOptions, callback: (...args: any[]) => any): void;
 
-  export interface StartOptions{
+  export interface StartOptions {
     /** specify framework that can be absolute path or npm package */
     framework?: string;
     /** directory of application, default to `process.cwd()` */
     baseDir?: string;
     /** ignore single process mode warning */
-    ignoreWarning? :boolean;
+    ignoreWarning?: boolean;
   }
 
-  export function start(options?:StartOptions):Promise<Application>
+  export function start(options?: StartOptions): Promise<Application>
 
   /**
    * Powerful Partial, Support adding ? modifier to a mapped property in deep level
@@ -1512,8 +1512,8 @@ declare module 'egg-zing-orm' {
    */
   export type PowerPartial<T> = {
     [U in keyof T]?: T[U] extends object
-      ? PowerPartial<T[U]>
-      : T[U]
+    ? PowerPartial<T[U]>
+    : T[U]
   };
 
   // send data can be number|string|boolean|object but not Set|Map
@@ -1548,8 +1548,8 @@ declare module 'egg-zing-orm' {
   }
 
   // compatible
-  export interface EggLoaderOptions extends CoreLoaderOptions {}
-  export interface EggLoader extends CoreLoader {}
+  export interface EggLoaderOptions extends CoreLoaderOptions { }
+  export interface EggLoader extends CoreLoader { }
 
   /**
    * App worker process Loader, will load plugins
@@ -1612,7 +1612,7 @@ declare module 'egg-zing-orm' {
   export interface Singleton<T> {
     get(id: string): T;
   }
-  
+
   /**
    * egg-multipart
    */
@@ -1664,10 +1664,10 @@ declare module 'egg-zing-orm' {
       tz?: string;
       utc?: boolean;
       iterator?: boolean;
-      currentDate?: string|number|Date;
-      endDate?: string|number|Date;
+      currentDate?: string | number | Date;
+      endDate?: string | number | Date;
     };
-    interval?: number|string;
+    interval?: number | string;
     immediate?: boolean;
     disable?: boolean;
     env?: string[];
@@ -1719,11 +1719,11 @@ declare module 'egg-zing-orm' {
       autoFields?: boolean;
       defaultCharset?: string;
       fieldNameSize?: number;
-      fieldSize?: string|number;
+      fieldSize?: string | number;
       fields?: number;
-      fileSize?: string|number;
+      fileSize?: string | number;
       files?: number;
-      whitelist?: ((filename: string) => boolean)|string[];
+      whitelist?: ((filename: string) => boolean) | string[];
       fileExtensions?: string[];
       tmpdir?: string;
       cleanSchedule?: ScheduleOptions;
