@@ -29,7 +29,7 @@ class BaseService extends Service {
   constructor(_ctx: Context, _entity: any, _options: any) {
 
     if (!_entity) {
-      throw Error(`BaseService Error: must provide 'super(_ctx: Context, _entity: any)' !!!`);
+      console.warn(`BaseService Error: dbService must provide 'super(_ctx: Context, _entity: any)' !!!`);
     }
 
     super(_ctx);
@@ -39,17 +39,19 @@ class BaseService extends Service {
     this.options = _options;
     this.entity = _entity;
     // this.entityClass = this.entity[this.modelName];
-    if (!!_options && !!_options.connectionName) {
-      if (!!this.ctx.connections && this.ctx.connections[_options.connectionName]) {
-        this.model = this.ctx.connections[_options.connectionName].getRepository(this.entity);
+    if (!!_entity) {
+      if (!!_options && !!_options.connectionName) {
+        if (!!this.ctx.connections && this.ctx.connections[_options.connectionName]) {
+          this.model = this.ctx.connections[_options.connectionName].getRepository(this.entity);
+        } else {
+          throw Error(`BaseService Error: this.ctx.connections[${_options.connectionName}] is undefined!!!`);
+        }
       } else {
-        throw Error(`BaseService Error: this.ctx.connections[${_options.connectionName}] is undefined!!!`);
-      }
-    } else {
-      if (!!this.ctx.connection) {
-        this.model = this.ctx.connection.getRepository(this.entity);
-      } else {
-        throw Error(`BaseService Error: this.ctx.connection is undefined!!!`);
+        if (!!this.ctx.connection) {
+          this.model = this.ctx.connection.getRepository(this.entity);
+        } else {
+          throw Error(`BaseService Error: this.ctx.connection is undefined!!!`);
+        }
       }
     }
     // TODO: 提示
