@@ -1,6 +1,6 @@
 {
   "name": "egg-zing-orm",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Simple orm with zingOrm, for egg plugin.",
   "egg": {
     "typescript": true,

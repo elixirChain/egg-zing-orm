@@ -28,7 +28,11 @@ export default async (app: Application) => {
             port: config.port,
             database: config.database,
           });
-          app.logger.info('[egg-zing-orm] Successfully connected to the database.');
+          if (!!app.context.connection.connection) {
+            app.logger.info('[egg-zing-orm] Successfully connected to the database.');
+          } else {
+            app.logger.error('[egg-zing-orm] Failed to connected to the database.');
+          }
         } else {
           app.logger.info('[egg-zing-orm] app.context.connection has already been initialized.');
         }
@@ -45,7 +49,11 @@ export default async (app: Application) => {
               port: config[i].port,
               database: config[i].database,
             });
-            app.logger.info(`[egg-zing-orm] Successfully connected to the database: ${name}`);
+            if (!!app.context.connections[name].connection) {
+              app.logger.info(`[egg-zing-orm] Successfully connected to the database: ${name}`);
+            } else {
+              app.logger.error(`[egg-zing-orm] Failed to connected to the database: ${name}`);
+            }
           }
         } else {
           app.logger.info('[egg-zing-orm] app.context.connections has already been initialized.');
