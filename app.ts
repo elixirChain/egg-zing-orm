@@ -27,6 +27,7 @@ export default async (app: Application) => {
             host: config.host,
             port: config.port,
             database: config.database,
+            extraOptions: config.extraOptions,
           });
           if (!!app.context.connection.connection) {
             app.logger.info('[egg-zing-orm] Successfully connected to the database.');
@@ -48,6 +49,7 @@ export default async (app: Application) => {
               host: config[i].host,
               port: config[i].port,
               database: config[i].database,
+              extraOptions: config[i].extraOptions,
             });
             if (!!app.context.connections[name].connection) {
               app.logger.info(`[egg-zing-orm] Successfully connected to the database: ${name}`);
