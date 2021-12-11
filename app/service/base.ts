@@ -66,21 +66,6 @@ class BaseService extends Service {
     };
   }
 
-  /**
-   * 增加额外标志
-   * - 默认只判断 update or delete
-   * @param res 响应
-   * @returns 
-   */
-  addSuccessFlag(res: any) {
-    // affected: undefined, null, 0
-    let success = true;
-    if (!res || !res.affected) {
-      success = false;
-    }
-    return { ...res, success };
-  }
-
 }
 
 export { BaseService };
